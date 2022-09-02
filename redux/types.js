@@ -6,3 +6,7 @@ export const loginType = {
 export const changeloginType = {
   LOGIN_STATE: 'LOGIN_STATE',
 };
+
+export const clickmeType = {
+  PAWD: 'PAWD',
+};

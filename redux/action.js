@@ -1,4 +1,4 @@
-import {changeloginType, loginType} from './types';
+import {changeloginType, loginType, clickmeType} from './types';
 
 export function changeUsername(data) {
   console.log('changeUsername called', data);
@@ -9,7 +9,6 @@ export function changeUsername(data) {
 }
 
 export function changePassword(data) {
-  console.log('changePassword called', data);
   return {
     type: loginType.PASSWORD,
     payload: data,
@@ -19,6 +18,13 @@ export function changePassword(data) {
 export function changeLogin(data) {
   return {
     type: changeloginType.LOGIN_STATE,
+    payload: data,
+  };
+}
+
+export function homePassword(data) {
+  return {
+    type: clickmeType.PAWD,
     payload: data,
   };
 }

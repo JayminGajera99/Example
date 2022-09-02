@@ -1,4 +1,4 @@
-import {loginType, changeloginType} from './types';
+import {loginType, changeloginType, clickmeType} from './types';
 
 const initialState = {
   uname: '',
@@ -22,6 +22,11 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         login: action.payload,
+      };
+    case clickmeType.PAWD:
+      return {
+        ...state,
+        pwd: action.payload,
       };
     default:
       return state;

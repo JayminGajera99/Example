@@ -9,23 +9,35 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSelector, useDispatch} from 'react-redux';
-import {changeLogin} from '../redux/action';
+import {changeLogin, homePassword} from '../redux/action';
 
 const HomeScreen = ({navigation}) => {
   //useDispatch use//
   const dispatch = useDispatch();
-
   //useSelector use//
   const {uname, pwd, login} = useSelector(state => state.dataReducer);
-  console.log('login state ===> ', login);
 
-  //Submit button function//
-  const onSubmit = async () => {
+  const [password, setPassword] = useState('');
+  const [newPwd, setNewPwd] = useState('');
+
+  //Logout button function//
+  const onLogout = async () => {
     await AsyncStorage.removeItem('userData');
-
     dispatch(changeLogin(false));
-
     navigation.navigate('Login');
+  };
+
+  //Clickme button function use//
+  const onChangePwdPress = () => {
+    // e pela apde check krvanu chhe k user no juno pwd hato e atyare usre textbox ma nakhyo e same chhe k nai
+    // etle pela redux mathi juno pwd get krvano
+
+    if (pwd === password) {
+      // ahiya password chhe e usere je juno pwd nakhel chhe e chhe
+      dispatch(homePassword(newPwd));
+    } else {
+      alert('your old pwd is wrong');
+    }
   };
 
   return (
@@ -38,34 +50,34 @@ const HomeScreen = ({navigation}) => {
             backgroundColor: '#4630EB',
           },
         ]}
-        onPress={() => onSubmit()}>
+        onPress={() => onLogout()}>
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.labels}>Enter UserName</Text>
         <TextInput
           style={styles.inputStyle}
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={userName}
-          onChangeText={actualdata => setUserName(actualdata)}
+          placeholder="enter old pwd"
+          onChangeText={txt => setPassword(txt)}
         />
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.labels}>Enter PassWord</Text>
         <TextInput
-          style={styles.inputStyle}
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry={true}
-          value={password}
-          onChangeText={actualdata => setPassword(actualdata)}
+          style={[styles.inputStyle, {marginBottom: 10}]}
+          placeholder="enter new pwd"
+          onChangeText={txt => setNewPwd(txt)}
         />
       </View>
 
-      <Button style={styles.buttonStyle} title="Click me" color="blue" />
+      <Button
+        style={styles.buttonStyle}
+        onPress={onChangePwdPress}
+        title="Click me"
+        color="blue"
+      />
+
+      <Text>current user pwd: {pwd}</Text>
     </View>
   );
 };
