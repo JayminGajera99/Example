@@ -10,14 +10,27 @@ import {
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {changeUsername, changePassword} from '../redux/action';
+
 const RegisterScreen = ({navigation}) => {
+  //useDispatch use//
+  const dispatch = useDispatch();
+
+  //useSelector use//
+  const {login} = useSelector(state => state.dataReducer);
+  console.log('LOgin state in register screen  ==> ', login);
+
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [agree, setAgree] = useState(false);
 
   const onSubmit = async () => {
-    console.log('username:', userName);
-    console.log('password:', password);
+    // console.log('username:', userName);
+    // console.log('password:', password);
+
+    dispatch(changeUsername(userName));
+    dispatch(changePassword(password));
 
     let objName = {
       username: userName,

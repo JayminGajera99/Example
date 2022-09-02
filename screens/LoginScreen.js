@@ -9,22 +9,29 @@ import {
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {changeLogin} from '../redux/action';
 
 const LoginScreen = ({navigation}) => {
+  //useDispatch use//
+  const dispatch = useDispatch();
+
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [agree, setAgree] = useState(false);
 
-  console.log('username:', userName);
-  console.log('password:', password);
+  // console.log('username:', userName);
+  // console.log('password:', password);
 
   const onSubmit = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('userData'));
 
-    console.log('data ===> ', data);
+    // console.log('data ===> ', data);
 
     if (userName === data.username && password === data.password) {
-      Alert.alert(`username and password are match`);
+      // Alert.alert(`username and password are match`);
+
+      dispatch(changeLogin(true));
       navigation.navigate('Home');
     } else {
       Alert.alert(`username and password are not match`);
